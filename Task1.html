@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Finance Hub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+        }
+        
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 15px 5%;
+            background: transparent;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        nav.scrolled {
+            background: #2c3e50;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            padding: 10px 5%;
+        }
+        
+        .logo {
+            color: white;
+            font-weight: bold;
+            font-size: 24px;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            padding: 5px 10px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        nav a:hover {
+            color: #f39c12;
+            transform: translateY(-2px);
+        }
+        
+        .datetime {
+            color: white;
+            font-size: 14px;
+            padding: 5px 15px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 20px;
+        }
+        
+        section {
+            min-height: 100vh;
+            padding: 100px 10% 80px;
+        }
+        
+        .hero {
+            background: linear-gradient(135deg, #3498db, #2c3e50);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        .btn {
+            padding: 12px 30px;
+            background: #f39c12;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn:hover {
+            background: #e67e22;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            font-size: 2.5rem;
+            color: #2c3e50;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .feature-card h3 {
+            margin: 20px 0 15px;
+            color: #2c3e50;
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            color: #3498db;
+        }
+        
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 30px;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            nav ul {
+                gap: 15px;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .datetime {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav id="mainNav">
+        <div class="logo">GlobalFinance</div>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#markets">Markets</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="datetime" id="datetime"></div>
+    </nav>
+
+    <section id="home" class="hero">
+        <h1>Global Financial Markets at Your Fingertips</h1>
+        <p>Access real-time market data, advanced trading tools, and expert analysis to make informed investment decisions in today's dynamic financial landscape.</p>
+        <a href="#markets" class="btn">Explore Markets</a>
+    </section>
+
+    <section id="markets">
+        <h2 class="section-title">Market Overview</h2>
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">📈</div>
+                <h3>Stock Markets</h3>
+                <p>Real-time quotes and analysis for global equity markets including NYSE, NASDAQ, and international exchanges.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💱</div>
+                <h3>Forex</h3>
+                <p>Currency pairs with live rates, technical indicators, and economic calendar for forex traders.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🪙</div>
+                <h3>Crypto</h3>
+                <p>Comprehensive cryptocurrency market data with price charts and volume analysis for major digital assets.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" style="background-color: #ecf0f1;">
+        <h2 class="section-title">Our Services</h2>
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Advanced Analytics</h3>
+                <p>Powerful charting tools with technical indicators and customizable dashboards for in-depth market analysis.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔔</div>
+                <h3>Alerts & Notifications</h3>
+                <p>Set price alerts and receive notifications when your specified market conditions are met.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📰</div>
+                <h3>Market News</h3>
+                <p>Curated financial news from trusted sources with sentiment analysis and impact ratings.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="about">
+        <h2 class="section-title">About Us</h2>
+        <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+            <p style="line-height: 1.8; margin-bottom: 30px;">
+                GlobalFinance is a leading financial technology company providing cutting-edge market data and trading tools to investors worldwide. 
+                Founded in 2015, we serve over 2 million active users with reliable, real-time financial information.
+            </p>
+            <p style="line-height: 1.8;">
+                Our mission is to democratize access to professional-grade financial tools and empower investors with the data they need to succeed in global markets.
+            </p>
+        </div>
+    </section>
+
+    <section id="contact" style="background-color: #ecf0f1;">
+        <h2 class="section-title">Contact Us</h2>
+        <div style="max-width: 600px; margin: 0 auto; background: white; padding: 40px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
+            <form>
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: 500;">Name</label>
+                    <input type="text" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 5px;">
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: 500;">Email</label>
+                    <input type="email" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 5px;">
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: 500;">Message</label>
+                    <textarea style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 5px; min-height: 120px;"></textarea>
+                </div>
+                <button type="submit" class="btn" style="width: 100%;">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2023 GlobalFinance. All rights reserved.</p>
+        <p style="margin-top: 10px;">Disclaimer: Market data is for informational purposes only.</p>
+    </footer>
+
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const nav = document.getElementById('mainNav');
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        // Date and time update
+        function updateDateTime() {
+            const now = new Date();
+            const options = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            };
+            document.getElementById('datetime').textContent = now.toLocaleDateString('en-US', options);
+        }
+        
+        updateDateTime();
+        setInterval(updateDateTime, 1000);
+    </script>
+</body>
+</html>

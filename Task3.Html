@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Premium Tic-Tac-Toe</title>
+  <style>
+    :root {
+      --primary: #6c5ce7;
+      --secondary: #a29bfe;
+      --dark: #2d3436;
+      --light: #f5f6fa;
+      --success: #00b894;
+      --danger: #d63031;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: var(--light);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 500px;
+      width: 100%;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .container:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    header {
+      background: var(--primary);
+      color: white;
+      padding: 20px;
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    .game-info {
+      display: flex;
+      justify-content: space-between;
+      padding: 15px 20px;
+      background: var(--secondary);
+      color: white;
+      font-weight: 600;
+    }
+
+    .player-symbol {
+      font-weight: 700;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .game-board {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      padding: 20px;
+    }
+
+    .cell {
+      aspect-ratio: 1;
+      background: white;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cell:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .cell::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--primary);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .cell:hover::after {
+      opacity: 0.1;
+    }
+
+    .cell.x {
+      color: var(--danger);
+    }
+
+    .cell.o {
+      color: var(--success);
+    }
+
+    .cell.winner {
+      animation: pulse 1s infinite;
+      background: rgba(0, 184, 148, 0.1);
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    .controls {
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+      background: var(--light);
+    }
+
+    .btn {
+      padding: 12px 25px;
+      border: none;
+      border-radius: 50px;
+      background: var(--primary);
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(108, 92, 231, 0.3);
+      transition: all 0.3s ease;
+      outline: none;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(108, 92, 231, 0.4);
+    }
+
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      z-index: 100;
+    }
+
+    .modal.show {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      text-align: center;
+      max-width: 400px;
+      width: 90%;
+      transform: scale(0.9);
+      transition: transform 0.3s ease;
+    }
+
+    .modal.show .modal-content {
+      transform: scale(1);
+    }
+
+    .modal h2 {
+      margin-bottom: 15px;
+      color: var(--dark);
+    }
+
+    .modal p {
+      margin-bottom: 20px;
+      font-size: 1.2rem;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .zoom-in {
+      animation: zoomIn 0.3s ease forwards;
+    }
+
+    @keyframes zoomIn {
+      from { transform: scale(0.5); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Tic-Tac-Toe</h1>
+    </header>
+
+    <div class="game-info">
+      <div>Player <span class="player-symbol">X</span>'s Turn</div>
+      <div class="player-turn">Player X: 0 | Player O: 0</div>
+    </div>
+
+    <div class="game-board">
+      <div class="cell" data-index="0"></div>
+      <div class="cell" data-index="1"></div>
+      <div class="cell" data-index="2"></div>
+      <div class="cell" data-index="3"></div>
+      <div class="cell" data-index="4"></div>
+      <div class="cell" data-index="5"></div>
+      <div class="cell" data-index="6"></div>
+      <div class="cell" data-index="7"></div>
+      <div class="cell" data-index="8"></div>
+    </div>
+
+    <div class="controls">
+      <button class="btn" id="reset-btn">Reset Game</button>
+    </div>
+  </div>
+
+  <div class="modal" id="result-modal">
+    <div class="modal-content">
+      <h2 id="result-title">Game Over!</h2>
+      <p id="result-message"></p>
+      <button class="btn" id="modal-btn">Play Again</button>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const gameState = {
+        board: Array(9).fill(''),
+        currentPlayer: 'X',
+        gameActive: true,
+        scores: { X: 0, O: 0 },
+        winningCombinations: [
+          [0, 1, 2], [3, 4, 5], [6, 7, 8],
+          [0, 3, 6], [1, 4, 7], [2, 5, 8],
+          [0, 4, 8], [2, 4, 6]
+        ]
+      };
+
+      const cells = document.querySelectorAll('.cell');
+      const playerTurnDisplay = document.querySelector('.player-turn');
+      const playerSymbolDisplay = document.querySelector('.player-symbol');
+      const resetBtn = document.getElementById('reset-btn');
+      const resultModal = document.getElementById('result-modal');
+      const resultTitle = document.getElementById('result-title');
+      const resultMessage = document.getElementById('result-message');
+      const modalBtn = document.getElementById('modal-btn');
+
+      initGame();
+
+      cells.forEach(cell => cell.addEventListener('click', handleCellClick));
+      resetBtn.addEventListener('click', resetGame);
+      modalBtn.addEventListener('click', resetGame);
+
+      function initGame() {
+        gameState.board.fill('');
+        gameState.gameActive = true;
+        updateUI();
+        cells.forEach(cell => {
+          cell.textContent = '';
+          cell.className = 'cell';
+        });
+      }
+
+      function handleCellClick(e) {
+        const cell = e.target;
+        const index = parseInt(cell.getAttribute('data-index'));
+
+        if (gameState.board[index] || !gameState.gameActive) return;
+
+        gameState.board[index] = gameState.currentPlayer;
+        cell.textContent = gameState.currentPlayer;
+        cell.classList.add(gameState.currentPlayer.toLowerCase(), 'zoom-in');
+
+        setTimeout(() => cell.classList.remove('zoom-in'), 300);
+
+        if (checkWin()) {
+          endGame(false);
+        } else if (checkDraw()) {
+          endGame(true);
+        } else {
+          gameState.currentPlayer = gameState.currentPlayer === 'X' ? 'O' : 'X';
+          updateUI();
+        }
+      }
+
+      function checkWin() {
+        return gameState.winningCombinations.some(([a, b, c]) =>
+          gameState.board[a] &&
+          gameState.board[a] === gameState.board[b] &&
+          gameState.board[a] === gameState.board[c]
+        );
+      }
+
+      function checkDraw() {
+        return !gameState.board.includes('');
+      }
+
+      function endGame(isDraw) {
+        gameState.gameActive = false;
+        if (isDraw) {
+          showResult('Draw!', 'It\'s a draw!');
+        } else {
+          gameState.scores[gameState.currentPlayer]++;
+          highlightWinner();
+          showResult('Winner!', `Player ${gameState.currentPlayer} wins!`);
+        }
+        updateUI();
+      }
+
+      function highlightWinner() {
+        const combo = gameState.winningCombinations.find(([a, b, c]) =>
+          gameState.board[a] &&
+          gameState.board[a] === gameState.board[b] &&
+          gameState.board[a] === gameState.board[c]
+        );
+        if (combo) {
+          combo.forEach(index => cells[index].classList.add('winner'));
+        }
+      }
+
+      function showResult(title, message) {
+        resultTitle.textContent = title;
+        resultMessage.textContent = message;
+        resultModal.classList.add('show');
+      }
+
+      function updateUI() {
+        playerSymbolDisplay.textContent = gameState.currentPlayer;
+        playerTurnDisplay.textContent = `Player X: ${gameState.scores.X} | Player O: ${gameState.scores.O}`;
+        playerSymbolDisplay.classList.remove('fade-in');
+        void playerSymbolDisplay.offsetWidth;
+        playerSymbolDisplay.classList.add('fade-in');
+      }
+
+      function resetGame() {
+        initGame();
+        resultModal.classList.remove('show');
+      }
+    });
+  </script>
+</body>
+</html>
